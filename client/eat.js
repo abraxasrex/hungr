@@ -1,12 +1,13 @@
 
 if(Meteor.isClient){
   angular.module('Hungr', ['angular-meteor']);
-  angular.module('Hungr').controller('mainController', function($scope, $http){
+  angular.module('Hungr').controller('mainController', function($scope, $http, $sce){
     // initial vars ///
-    var foodPending; var placePending; $scope.noIns=false; $scope.noOuts=false;  $scope.inHits= []; $scope.ingredients= [];
+    var foodPending; var placePending; var count=0; $scope.noIns=false; $scope.noOuts=false;  $scope.inHits= []; $scope.ingredients= [];
     if($scope.radius === undefined){
      $scope.radius = 10;
       }
+      $scope.keywords = "onions";
     //draw banner/
     $scope.draw=function(){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -24,34 +25,26 @@ if(Meteor.isClient){
      if(foodPending){
        clearTimeout(foodPending);
      }
-       foodPending = setTimeout(inFetch(), 1000);
-    if($scope.searchPlace.length){
+       foodPending = setTimeout(inFetch(), 500);
+    if($scope.searchPlace.length>0){
       clearTimeout(placePending);
     }
-     placePending= setTimeout(outFetch(), 1000);
+     placePending= setTimeout(outFetch(), 500);
    };
    $scope.placeChange = function(){
-     if(placePending && ($scope.searchPlace.length && $scope.searchFood.length)){
+     if(placePending && ($scope.searchPlace.length>0 && $scope.searchFood.length>0)){
          clearTimeout(placePending);
        }
-         placePending = setTimeout(outFetch(), 1000);
+         placePending = setTimeout(outFetch(), 500);
    };
-  $scope.match= function(these){
-    for(var k=0; k< $scope.ingredients.length; k++){
-        var toTest= new RegExp($scope.ingredients[k], 'i');
+  $scope.matchIt= function(these){
+   for(var m=0; m< $scope.ingredients.length; k++){
+        var toTest= new RegExp($scope.ingredients[m], 'gi');
         if(these.match(toTest)){
           return true;
         }
     }
   }
-//$scope.highlight = function(haystack, needle) {
-  //  if(!needle) {
-    //    return $scope.trustAsHtml(haystack);
-  //  }
-  //  return $scope.trustAsHtml(haystack.replace(new RegExp(needle, "gi"), function(match) {
-  //      return '<span class="highlightedText">' + match + '</span>';
-  //  }));
-//};
   $scope.remove = function(item) {
   var index = $scope.ingredients.indexOf(item);
   $scope.ingredients.splice(index, 1);
@@ -64,10 +57,12 @@ $scope.slideIt= function(){
    $(".about_inner").toggle();
    $(".console").toggle();
 }
+$scope.roundIt= function(number){
+  return Math.round(number);
+}
 $scope.select = function(){
   this.setSelectionRange(0, this.value.length);
 }
-
    ///http functions //
   var getIndividual= function(j, these){
     //  get recipe ingredients with server-side call //
@@ -75,6 +70,8 @@ $scope.select = function(){
       Meteor.call('inFetch', url2, function(err, results){
         if(!err){
               $scope.inHits.push(JSON.parse(results.content));
+              count +=1;
+              console.log(count);
         }else{
           $scope.noIns= true;
         }
@@ -94,13 +91,12 @@ $scope.select = function(){
    };
     function inFetch(){
       // food2fork get // have to use meteor methods to resolve CORS issues //
-      var url= "http://food2fork.com/api/search.json?key=" + Meteor.settings.public.F2F_KEY + "&q=" + $scope.searchFood;
+      var url= "http://food2fork.com/api/search.json?key=" + Meteor.settings.public.F2F_KEY + "&q=" + $scope.searchFood + "&sort=r";
       Meteor.call("inFetch", url,  function(err, results){
         if(!err){
           $scope.noIns= false;
           var parsed= JSON.parse(results.content);
           var preInHits= parsed.recipes;
-          console.log("pre's are" + preInHits)
           //keep call amount low so i don't have to pay for this api $$$  ////
       for (var i= 0; i < 3; i++) {
               getIndividual(i, preInHits);

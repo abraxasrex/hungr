@@ -2,6 +2,7 @@
 <head>
   <title>Eat In or Out?</title>
   <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  <script src="angular-highlight.js" type="text/javascript"></script>
   <meta charset="UTF-8">
    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +31,9 @@
      <!--inputs -->
     <div class="col-md-12 col-sm-12 col-xs-12 inputs">
        <h3>I hungr for </h3>
-       <input id="meal" placeholder= "chicken parmesan" ng-model="searchFood" ng-change="foodChange()" onclick="select()"/> <h3>within</h3>
+       <input id="meal" placeholder= "chicken parmesan" ng-model="searchFood" ng-model-options="{debounce:500}" ng-change="foodChange()" onclick="select()"/> <h3>within</h3>
          <input id="radius" style="text-align:center" ng-model="radius" ng-change="placeChange()" onclick="select()"/><h3> miles of</h3>
-          <input id="place" placeholder="address 1234 hungrytown, USA" ng-model="searchPlace" ng-change="placeChange()  ng-keypress="refresh($event)"" onclick="select()"/>
+          <input id="place" placeholder="address 1234 hungrytown, USA" ng-model-options="{debounce:500}" ng-model="searchPlace" ng-change="placeChange()" onclick="select()"/>
      </div>
      <!--error response-->
          <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="noIns"><h3>Sorry, no recipes found.</h3></div>
@@ -43,10 +44,10 @@
             <div class="tile" ng-repeat="hit in inHits | limitTo:3">
              <h3><a target="_blank" ng-href="{{hit.recipe.source_url}}">{{hit.recipe.title}}</a></h3>
               <div class="pic col-md-8 col-md-offset-2 col-sm-12 col-xs-12"><img ng-src="{{hit.recipe.image_url}}"/></div>
-              <h4>rating: {{Math.round(hit.recipe.social_rank)}}/100</h4>
+              <h4>rating: {{ roundIt(hit.recipe.social_rank)}}/100</h4>
               <h4 ng-show="!hit.recipe.ingredients">no ingredients listed; try <a ng-href="{{hit.recipe.source_url}}">here</a></h4>
-             <ul ng-if="hit.recipe.ingredients">ingredients:
-               <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': match(item)>0}">{{item}}  </li>
+             <ul ng-show="hit.recipe.ingredients">ingredients:
+                 <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
              </ul>
              <div></div>
            </div>
