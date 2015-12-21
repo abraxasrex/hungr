@@ -20,3 +20,5 @@ angular
 twbs:bootstrap
 webapp
 http
+accounts-password
+dotansimha:accounts-ui-angular

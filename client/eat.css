@@ -1,4 +1,5 @@
 
+/* header */
 canvas{
   width:100%;
   height:150px;
@@ -18,8 +19,8 @@ width:100%;
 .header{
   margin:0;
   padding:0;
-   transform: translate(-50%, 120%);
-   top: 55%;
+   transform: translate(-50%, 130%);
+   top: 50%;
    left: 50%;
   position: absolute;
   text-align:center;
@@ -27,17 +28,17 @@ width:100%;
 }
 .header h1{
 font-size: 1.6em;
-font-size:1.6vw
+ font-size:3.5vh;
 width:100%;
 }
 .hungr{
   position: absolute;
-  transform: translate(-50%, 20%);
+  transform: translate(-50%, 10%);
   width:100%;
   top: 50%;
   left: 50%;
-  font-size: 6em;
-  font-size: 6vw;
+   font-size: 6em;
+   font-size: 12vh;
   margin-left:0; margin-right:0;
   padding:0;
   text-align:center;
@@ -46,82 +47,43 @@ width:100%;
   height:40px;
   width:40px;
 }
-.credits{
-float: right;
-margin-top:25px;
-}
 body{
       background-color: #e5ffff;
       font-family:Montserrat;
+      font-size: x-large;
+}
+@media (max-width: 1000px) {
+  body { font-size: large; }
+}
+@media (max-width: 500px) {
+  body { font-size: medium; }
 }
 body, .container{
   width:100%;
   padding:0;
   margin:0;
 }
-.console{
-  margin-top:175px;
-  margin-bottom: 75px;
-  min-height: 75px;
-  border-radius:2px;
-  padding-right:0;
-  padding-left:0;
-  margin-left:0;
-  padding-left:0;
-}
-.inputs{
-  margin-bottom:10px;
-}
-.inputs div h3{
-  display:inline-block;
-  clear:left;
-}
-#meal, #place, #radius{
-  margin-left: 1%;
-  margin-right: 1%;
-  font-size: 1.7em;
-  font-size: 1.7vw;
-  background-color:rgba(0,0,0,0);
-  display: inline-block;
-   color:black;
-   border: none;
-   border-bottom: thin solid black;
-   outline:none;
-}
-#place{
-    width: 50%;
-}
-#meal{
-  width:50%;
-}
-#radius{
-  width: 5%;
-  text-align: center;
-}
+/* kitchen module  */
 #kitchen{
   font-size: 1.3em;
-  font-size: 1.3vw;
+   font-size: 1.3vw;
   background-color:rgba(0,0,0,0);
   width:100%;
    color:black;
    border: none;
    border-bottom: thin solid black;
    outline:none;
-   margin-bottom: 5px;
+ /*margin-bottom*/
 }
- .add_ingredient{
-  text-align:center;
+.add_ingredient{
+ text-align:center;
 }
 .kitchen{
-   margin-top:175px;
-   margin-left:0px;
-   padding-left:0;
-   padding-right:0px;
-   margin-right:0px;
-}
-ul{
-  font-size:1.5em;
-  font-size:1.5vw;
+  margin-top:175px;
+  margin-left:0px;
+  padding-left:0;
+  padding-right:0px;
+  margin-right:0px;
 }
 form{
   text-align: center;
@@ -130,21 +92,66 @@ form{
   border-top: thin solid;
   margin-top: 5px;
   padding-right:0;
+  font-size:0.8em;
 }
 .ingredient_block button{
   float: right;
 }
+/*  console and inputs  */
+.console{
+  margin-top:175px;
+  margin-bottom: 25px;
+  min-height: 75px;
+  padding:0;
+/*  border-radius:0.2vw; */
+}
+.inputs h4{
+  display:inline-block;
+  clear:left;
+  margin-left:2%;
+}
+#meal, #place, #radius{
+  margin-left:2%;
+   font-size: 2.5em;
+ font-size: 2.5vh;
+  background-color:rgba(0,0,0,0);
+   color:black;
+   border: none;
+   border-bottom: thin solid black;
+   outline:none;
+   display: inline-block;
+}
+#place{
+    width: 25%;
+}
+#meal{
+  width:18%;
+}
+#radius{
+  width: 5%;
+}
+#enter{
+  clear:both;
+  display:block;
+  margin-top:10px;
+}
+/*  in and out content  */
+ul{
+  font-size:0.8em;
+}
 .eat_in{
   clear:left;
   float:left;
+  text-align:center;
 }
 .eat_out{
   clear: right;
   float:right;
+  text-align:center;
 }
 .eat_out, .eat_in{
   text-align: center;
-  margin-top:30px;
+  margin-top:15px;
 }
 .pic{
   height:200px;
@@ -166,6 +173,7 @@ img{
 .tile h3, h4{
   clear: both;
 }
+/*everything else*/
 .about{
   text-align: center;
   margin-top:190px;
@@ -174,11 +182,12 @@ img{
   margin-left:0;
   margin-right:0;
 }
+.credits{
+float: right;
+margin-top:25px;
+}
 .about button{
     vertical-align:middle;
-}
-#enter{
-  float:right;
 }
 .about_inner{
   text-indent: 2px;

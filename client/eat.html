@@ -15,51 +15,53 @@
     <canvas> </canvas>
   </div>
 
-  <!--kitchen module-->
+  <!-- <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em;" ng-show="!Meteor.userId"> <login-buttons></login-buttons></div>
+    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em" ng-show="Meteor.userId"> loggin in as: {{username}} </div>
+                                                kitchen and favorite modules-->
   <div class="col-md-2 col-sm-2 col-xs-3 kitchen">
      <form ng-submit="add()">
          <h4>What's in My Pantry:</h4>
-       <button class="btn btn-md btn-primary add_ingredient" type="submit" ng-submit="add()">add</button>
-      <input id="kitchen" placeholder="onions" ng-model="addKitchen"/>
+       <button class="btn btn-md btn-default add_ingredient" type="submit" ng-submit="add()">add</button>
+        <h4>  <input id="kitchen" placeholder="onions" ng-model="addKitchen"/> </h4>
      </form>
       <div class="ingredient_block col-md-12 col-sm-12 col-xs-12" ng-repeat="ingredient in ingredients" ng-show="ingredients.length">{{ingredient}}<button class=" btn btn-sm btn-danger" ng-click="remove(ingredient)">x</button> </div>
   </div>
+<!--  {{#if currentUser}}
+         <h4>Favorite Recipes:</h4>
+      <div class="ingredient_block col-md-12 col-sm-12 col-xs-12" ng-repeat="favorite in favorites" ng-show="favorites.length" ng-click="selectRecipe">{{favorite.title}}<button class=" btn btn-sm btn-danger" ng-click="remove(favorite)">x</button> </div>
+  {{/if}} -->
 
  <!--main display-->
   <div class="console col-md-9 col-sm-9 col-xs-9" >
      <!--inputs -->
     <div class="col-md-12 col-sm-12 col-xs-12 inputs">
 
-       <div class="col-md-5 col-sm-5 col-xs-12" style="margin:0; padding:0;">
-         <h3>I hungr for </h3>
-       <input id="meal" placeholder= "chicken parmesan" ng-model="searchFood" ng-change="foodChange()" />
-     </div>
-     <div class="col-md-7 col-sm-7 col-xs-12" style="margin:0; padding:0;">
-        <h3>within</h3>
-         <input id="radius" ng-model="radius" ng-change="placeChange()" /><h3> miles of</h3>
-          <input id="place" placeholder="address 1234 hungrytown" ng-model="searchPlace" ng-change="placeChange()" />
-        </div>
-        ><button class="btn btn-lg btn-success" id="enter" ng-click="changeFood(); changePlace()">Go</button>
+         <h4 style="margin-left:5%">I hungr for </h4> <input id="meal" placeholder= "chicken parmesan" ng-model="searchFood"/>
+        <h4> within </h4>  <input id="radius" ng-model="radius" />
+        <h4> miles of</h4> <input id="place" placeholder="address 1234 hungrytown" ng-model="searchPlace"/>
+
+        <button class="btn btn-md btn-success center-block" id="enter" ng-click="foodChange(); placeChange();">Go</button>
      </div>
      <!--error response-->
          <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="noIns"><h3>Sorry, no recipes found.</h3></div>
          <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="noOuts"><h3>Sorry, no restaurants found.</h3></div>
        <!--recipe results -->
-      <div class="col-md-6 col-sm-6 col-xs-6 eat_in">
+      <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="inHits.length">
           <h1>In</h1>
             <div class="tile" ng-repeat="hit in inHits | limitTo:3">
              <h3><a target="_blank" ng-href="{{hit.recipe.source_url}}">{{hit.recipe.title}}</a></h3>
-              <div class="pic col-md-8 col-md-offset-2 col-sm-12 col-xs-12"><img ng-src="{{hit.recipe.image_url}}"/></div>
+              <div squared class="pic col-md-8 col-md-offset-2 col-sm-12 col-xs-12"><img ng-src="{{hit.recipe.image_url}}"/></div>
               <h4>rating: {{ roundIt(hit.recipe.social_rank)}}/100</h4>
-              <h4 ng-show="!hit.recipe.ingredients">no ingredients listed; try <a ng-href="{{hit.recipe.source_url}}">here</a></h4>
-             <ul ng-show="hit.recipe.ingredients">ingredients:
+              <h4 ng-show="!hit.recipe.ingredients.length">no ingredients listed; try <a ng-href="{{hit.recipe.source_url}}">here</a></h4>
+             <ul ng-show="hit.recipe.ingredients.length">ingredients:
                  <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
              </ul>
              <div></div>
            </div>
+           <button class="btn btn-md btn-primary center-block" ng-click="getMoreIns()">Get More</button>
          </div>
           <!--eating out results -->
-       <div class="col-md-6 col-sm-6 col-xs-6 eat_out">
+       <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="outHits.length">
          <h1>Out</h1>
          <div class="tile" ng-repeat="hit in outHits | limitTo:3">
            <h3><a target="_blank" ng-href="{{hit.venue.url}}">{{ hit.venue.name }}</a></h3>
@@ -72,14 +74,11 @@
              <h4 ng-show="hit.venue.delivery.length">delivery: {{ hit.venue.delivery.url }}</h4>
              <h4> {{hit.venue.contact.formattedPhone}}</h4>
          </div>
+          <button class="btn btn-md btn-primary center-block" ng-click="getMoreOuts()">Get More</button>
        </div>
 
   </div>
-
-  <div class="col-md-1 col-sm-1 col-xs-12 about">
-    <button class="btn btn-large btn-default"  ng-click="slideIt()">About</button>
-  </div>
-    <div class="about_inner col-md-6 col-md-offset-1 col-sm-7 col-xs-7" ng-click="slideIt()">
+    <div class="about_inner col-md-6 col-md-offset-1 col-sm-7 col-xs-9" style="float:left;" ng-click="slideIt()">
        <p> I made this app as a feature suggestion for allrecipes.com. It's intended as a cost/benefit comparison of
          going to a restaurant for a meal, versus cooking it. With access to more comprehensive API information, you could get an exact price analysis of the cost of labor time
          and ingredients, as well as the exact menu item at the restaurant. Some dishes you're just not going to prepare
@@ -87,9 +86,11 @@
          ingredients. But sometimes you might be denying yourself a fulfilling experience. Cooking is an important
          communal activity that is often overlooked in favor of a cheap, quick meal!</p>
     </div>
-
+    <div class="col-md-1 col-sm-1 col-xs-12 about">
+      <button class="btn btn-large btn-default"  ng-click="slideIt()">About</button>
+    </div>
 <div class="row credits">
-  <h5>Jonathan Reasor 2015.
+  <h5> Jonathan Reasor 2015.
   Powered by <a href="http://foursquare.com">Foursquare</a> and <a href="http://food2fork.com">Food2Fork </a></h5>
 </div>
 </div>
