@@ -27,8 +27,7 @@ width:100%;
   width:100%;
 }
 .header h1{
-font-size: 1.6em;
- font-size:3.5vh;
+font-size: 0.9em;
 width:100%;
 }
 .hungr{
@@ -37,8 +36,7 @@ width:100%;
   width:100%;
   top: 50%;
   left: 50%;
-   font-size: 6em;
-   font-size: 12vh;
+   font-size: 3.3em;
   margin-left:0; margin-right:0;
   padding:0;
   text-align:center;
@@ -58,6 +56,10 @@ body{
 @media (max-width: 500px) {
   body { font-size: medium; }
 }
+input {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
 body, .container{
   width:100%;
   padding:0;
@@ -66,7 +68,6 @@ body, .container{
 /* kitchen module  */
 #kitchen{
   font-size: 1.3em;
-   font-size: 1.3vw;
   background-color:rgba(0,0,0,0);
   width:100%;
    color:black;
@@ -92,7 +93,7 @@ form{
   border-top: thin solid;
   margin-top: 5px;
   padding-right:0;
-  font-size:0.8em;
+  font-size:0.7em;
 }
 .ingredient_block button{
   float: right;
@@ -101,6 +102,8 @@ form{
 .console{
   margin-top:175px;
   margin-bottom: 25px;
+  margin-left:0px;
+  margin-right:0px;
   min-height: 75px;
   padding:0;
 /*  border-radius:0.2vw; */
@@ -112,8 +115,7 @@ form{
 }
 #meal, #place, #radius{
   margin-left:2%;
-   font-size: 2.5em;
- font-size: 2.5vh;
+   font-size: 0.7em;
   background-color:rgba(0,0,0,0);
    color:black;
    border: none;
@@ -129,6 +131,7 @@ form{
 }
 #radius{
   width: 5%;
+  text-align:center;
 }
 #enter{
   clear:both;
@@ -137,7 +140,7 @@ form{
 }
 /*  in and out content  */
 ul{
-  font-size:0.8em;
+  font-size:0.7em;
 }
 .eat_in{
   clear:left;
