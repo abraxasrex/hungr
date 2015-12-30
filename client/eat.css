@@ -1,60 +1,80 @@
 
 /* header */
-canvas{
-  width:100%;
-  height:150px;
-  z-index:-1;
-  padding: 0;
-  margin:0;
-  position: absolute;
-  border-style: solid thin;
-}
 .rel{
-  position: relative;
-  background-color:rgba(0,0,0,0);
+background-image:url('produce.jpg');
+background-size:100% 125%;
+background-repeat:no-repeat;
 width:100%;
-  margin:0;
-  padding:0;
-}
-.header{
-  margin:0;
-  padding:0;
-   transform: translate(-50%, 130%);
-   top: 50%;
-   left: 50%;
-  position: absolute;
-  text-align:center;
-  width:100%;
-}
-.header h1{
-font-size: 0.9em;
-width:100%;
+height:9em;
+  margin-top:0;
+  padding-top:0;
+  margin-right:0;
+  margin-left:0;
+  margin-bottom: 1.0em;
+  border-style:solid;
+  border-width:thin;
 }
 .hungr{
-  position: absolute;
-  transform: translate(-50%, 10%);
+/*  transform: translate(-50%, 10%);
   width:100%;
   top: 50%;
-  left: 50%;
-   font-size: 3.3em;
+  left: 50%; */
+   font-size: 3.5em;
+   font-weight:bold;
   margin-left:0; margin-right:0;
   padding:0;
   text-align:center;
+    color: #ff5050;
+/*  background-color:white;*/
+  text-shadow:
+  -1px -1px 0 black,
+   1px -1px 0 black,
+   -1px 1px 0 black,
+    1px 1px 0 black;
+}
+.header{
+  text-align:center;
+  margin-top:0; padding-top:0;
+/*  left:37.5%;
+  position:absolute;  */
+  color: #ff5050;
+  font-size: 0.9em;
+}
+  .header h1{
+font-size: 0.9em;
+    vertical-align: middle;
+    color: #ff5050;
 }
 .header span{
-  height:40px;
+/*  height:40px;
   width:40px;
+/*  background-color:white; */
 }
+.glyphicon{
+  font-size: 0.9em;
+  color: #ff5050;
+  text-shadow:
+  -1px -1px 0 black,
+   1px -1px 0 black,
+   -1px 1px 0 black,
+    1px 1px 0 black;
+  }
 body{
       background-color: #e5ffff;
+      background-color: #ff5050;
+      background-color:#ffff66;
+      background-color: #ccccff;
       font-family:Montserrat;
       font-size: x-large;
+    /*  overflow:hidden;  */
 }
 @media (max-width: 1000px) {
   body { font-size: large; }
+  .rel {background-size:100% 100%;}
 }
 @media (max-width: 500px) {
   body { font-size: medium; }
+    .rel {background-size:100% 150%;}
 }
 input {
     -webkit-appearance: none;
@@ -64,57 +84,59 @@ body, .container{
   width:100%;
   padding:0;
   margin:0;
+  padding-top:0 !important;
+  margin-top:0 !important;
 }
 /* kitchen module  */
 #kitchen{
-  font-size: 1.3em;
+  font-size: 1.0em;
   background-color:rgba(0,0,0,0);
   width:100%;
    color:black;
    border: none;
    border-bottom: thin solid black;
    outline:none;
+   margin:0;
+   padding:0;
+   max-width:100%;
  /*margin-bottom*/
+ width:10em;
 }
 .add_ingredient{
  text-align:center;
 }
 .kitchen{
-  margin-top:175px;
-  margin-left:0px;
-  padding-left:0;
-  padding-right:0px;
-  margin-right:0px;
+  /* padding-right:0px;
+  margin-right:0px; */
 }
 form{
   text-align: center;
 }
 .ingredient_block{
   border-top: thin solid;
-  margin-top: 5px;
+  margin-top: 1.0em;
   padding-right:0;
-  font-size:0.7em;
+  font-size:0.6em;
 }
 .ingredient_block button{
   float: right;
 }
 /*  console and inputs  */
 .console{
-  margin-top:175px;
-  margin-bottom: 25px;
-  margin-left:0px;
-  margin-right:0px;
-  min-height: 75px;
-  padding:0;
-/*  border-radius:0.2vw; */
+  margin-bottom: 2em;
+/*  margin-left:0px;
+  margin-right:0px;  */
+  min-height: 5em;
+/*  padding:0; */
 }
-.inputs h4{
+.inputs h5{
   display:inline-block;
   clear:left;
-  margin-left:2%;
+  margin-left:0.5%;
+  font-size: 0.7em;
 }
 #meal, #place, #radius{
-  margin-left:2%;
+  margin-left: 0.5%;
    font-size: 0.7em;
   background-color:rgba(0,0,0,0);
    color:black;
@@ -124,80 +146,94 @@ form{
    display: inline-block;
 }
 #place{
-    width: 25%;
+    width: 22.5%;
+    width:12em;
 }
 #meal{
-  width:18%;
+  width:25%;
+  width:12em;
 }
 #radius{
   width: 5%;
+  width:2em;
   text-align:center;
 }
 #enter{
   clear:both;
   display:block;
-  margin-top:10px;
+  margin-top:1em;
 }
 /*  in and out content  */
 ul{
   font-size:0.7em;
 }
+.eat_out, .eat_in{
+  text-align: center;
+}
 .eat_in{
   clear:left;
   float:left;
   text-align:center;
+ /*  padding-right:0;  */
+ margin:0;
+ padding:0;
 }
 .eat_out{
   clear: right;
   float:right;
   text-align:center;
-}
-.eat_out, .eat_in{
-  text-align: center;
-  margin-top:15px;
-}
-.pic{
-  height:200px;
-  border-style: solid thin;
-  margin-bottom: 5px;
+  margin-right:0; padding-right:0;
 }
 img{
   display: block;
   height:100%;
   width: 100%;
+  border-style: solid;
+  border-width:thin;
 }
 .tile{
+  margin:0;
+  padding:0;
   margin-bottom: 10px;
+/*   margin-left:0px; margin-right:0px; */
   width: 100%;
   border-style: solid;
   border-width:thin;
   text-align: center;
 }
-.tile h3, h4{
+.tile h3, h4, h5{
   clear: both;
 }
 /*everything else*/
 .about{
   text-align: center;
-  margin-top:190px;
   border-style: solid thin;
   float: right;
   margin-left:0;
   margin-right:0;
 }
+.about p{
+
+}
 .credits{
-float: right;
-margin-top:25px;
+text-align:center;
+margin-top:1em;
 }
 .about button{
     vertical-align:middle;
+   display:inline-block;
 }
 .about_inner{
-  text-indent: 2px;
-  margin-top: 175px;
- display:none;
+  text-indent: 1em;
+ font-size:1.0em;
  text-align:left;
+ margin-left:0.5em;
+}
+.contact_inner{
+   font-size:0.8em;
+  text-align:left;
 }
 .highlighted {
-    background-color: yellow;
+    background-color: #66ff33;
+    background-attachment: ground-color:yellow;
 }

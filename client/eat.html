@@ -1,97 +1,148 @@
-
 <head>
   <title>Eat In or Out?</title>
   <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   <meta charset="UTF-8">
-   <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
-<body ng-app="Hungr"> <div class="container container-fluid" ng-controller="mainController as main">
-  <!-- canvas banner -->
-  <div class="rel">
-    <h1 class="hungr">H U N G R </h1>
-  <div class="header">  <h1><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Eat In
-      or Eat Out? <span class="glyphicon glyphicon-glass" aria-hidden="true"></span> </h1></div>
-    <canvas> </canvas>
-  </div>
 
-  <!-- <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em;" ng-show="!Meteor.userId"> <login-buttons></login-buttons></div>
+<body ng-app="Hungr" ng-controller="mainController as main">
+  <div class="container container-fluid" >
+    <div class="rel">
+      <h1 class="hungr"> H U N G R </h1>
+      <h1 class="header">
+        <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>
+        <span> Eat In or Eat Out?</span>
+        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
+      </h1>
+    </div>
+
+    <!-- <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em;" ng-show="!Meteor.userId"> <login-buttons></login-buttons></div>
     <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em" ng-show="Meteor.userId"> loggin in as: {{username}} </div>
                                                 kitchen and favorite modules-->
-  <div class="col-md-1 col-sm-1 col-xs-2 kitchen">
-     <form ng-submit="add()">
-         <h4>What's in My Pantry:</h4>
-       <button class="btn btn-md btn-default add_ingredient" type="submit" ng-submit="add()">add</button>
-        <h5>  <input id="kitchen" placeholder="onions" ng-model="addKitchen"/> </h5>
-     </form>
-      <div class="ingredient_block col-md-12 col-sm-12 col-xs-12" ng-repeat="ingredient in ingredients" ng-show="ingredients.length">{{ingredient}}<button class=" btn btn-sm btn-danger" ng-click="remove(ingredient)">x</button> </div>
-  </div>
-<!--  {{#if currentUser}}
+    <div class="col-md-2 col-sm-2 col-xs-3 kitchen" style="text-align:center;">
+      <button class="btn btn-large btn-default faves" ng-hide="!loggedIn()" ng-click="selectFaves()">Favorites</button>
+      <login-buttons class="btn btn-large btn-default" style="vertical-align:middle;clear:right;display:inline-block;">
+      </login-buttons>
+      <form ng-submit="add()">
+        <h4>What's in My Pantry:</h4>
+        <button class="btn btn-md btn-default add_ingredient" type="submit" ng-submit="add()">add</button>
+        <h5>
+          <input id="kitchen" placeholder="onions" ng-model="addKitchen" /> </h5>
+      </form>
+      <div class="ingredient_block col-md-12 col-sm-12 col-xs-12" ng-repeat="ingredient in ingredients" ng-show="ingredients.length">{{ingredient}}
+        <button class=" btn btn-sm btn-danger" ng-click="remove(ingredient)">x</button>
+      </div>
+    </div>
+    <!--  {{#if currentUser}}
          <h4>Favorite Recipes:</h4>
       <div class="ingredient_block col-md-12 col-sm-12 col-xs-12" ng-repeat="favorite in favorites" ng-show="favorites.length" ng-click="selectRecipe">{{favorite.title}}<button class=" btn btn-sm btn-danger" ng-click="remove(favorite)">x</button> </div>
   {{/if}} -->
 
- <!--main display-->
-  <div class="console col-md-10 col-sm-10 col-xs-10" >
-     <!--inputs -->
-    <div class="col-md-12 col-sm-12 col-xs-12 inputs">
+    <!--main display-->
+    <div class="console col-md-8 col-sm-8 col-xs-9" ng-show="mainShow ==='console'">
+      <!--inputs -->
+      <div class="col-md-12 col-sm-12 col-xs-12 inputs">
 
-         <h4 style="margin-left:5%">I hungr for </h4> <input id="meal" placeholder= "chicken parmesan" ng-model="searchFood"/>
-        <h4> within </h4>  <input id="radius" ng-model="radius" />
-        <h4> miles of</h4> <input id="place" placeholder="address 1234 hungrytown" ng-model="searchPlace"/>
+        <h5>I hungr for </h5>
+        <input id="meal" placeholder="chicken parmesan" ng-model="searchFood" ng-keypress="enterSubmit($event)" />
+        <h5> within </h5>
+        <input id="radius" ng-model="radius" ng-keypress="enterSubmit($event)" />
+        <h5> miles of</h5>
+        <input id="place" placeholder="1234 hungry, USA" ng-model="searchPlace" ng-keypress="enterSubmit($event)" />
 
         <button class="btn btn-md btn-success center-block" id="enter" ng-click="foodChange(); placeChange();">Go</button>
-     </div>
-     <!--error response-->
-         <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="noIns"><h3>Sorry, no recipes found.</h3></div>
-         <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="noOuts"><h3>Sorry, no restaurants found.</h3></div>
-       <!--recipe results -->
+      </div>
+      <!--error response-->
+      <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="noIns">
+        <h3>Sorry, no recipes found.</h3>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="noOuts">
+        <h3>Sorry, no restaurants found.</h3>
+      </div>
+      <!--recipe results -->
       <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="inHits.length">
-          <h1>In</h1>
-            <div class="tile" ng-repeat="hit in inHits | limitTo:3">
-             <h3><a target="_blank" ng-href="{{hit.recipe.source_url}}">{{hit.recipe.title}}</a></h3>
-              <div squared class="pic col-md-8 col-md-offset-2 col-sm-12 col-xs-12"><img ng-src="{{hit.recipe.image_url}}"/></div>
-              <h4>rating: {{ roundIt(hit.recipe.social_rank)}}/100</h4>
-              <h4 ng-show="!hit.recipe.ingredients.length">no ingredients listed; try <a ng-href="{{hit.recipe.source_url}}">here</a></h4>
-             <ul ng-show="hit.recipe.ingredients.length">ingredients:
-                 <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
-             </ul>
-             <div></div>
-           </div>
-           <button class="btn btn-md btn-primary center-block" ng-click="getMoreIns()">Get More</button>
-         </div>
-          <!--eating out results -->
-       <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="outHits.length">
-         <h1>Out</h1>
-         <div class="tile" ng-repeat="hit in outHits | limitTo:3">
-           <h3><a target="_blank" ng-href="{{hit.venue.url}}">{{ hit.venue.name }}</a></h3>
-            <h4 ng-show="hit.venue.hours.isOpen">should be open</h4>
-            <h4 ng-show="!hit.venue.hours.isOpen"> closed </h4>
-            <h4 ng-show="hit.venue.menu.url"><a ng-href="{{hit.venue.menu.url}}" target="_blank">menu link</a></h4>
-           <h4 ng-show="hit.venue.price.message">The prices are: {{hit.venue.price.message}}</h4>
-             <h4>{{hit.venue.location.formattedAddress[0]}}</h4>
-             <h4 ng-show="hit.venue.location.distance"> {{hit.venue.location.distance * 0.00062137 }} miles away</h4>
-             <h4 ng-show="hit.venue.delivery.length">delivery: {{ hit.venue.delivery.url }}</h4>
-             <h4> {{hit.venue.contact.formattedPhone}}</h4>
-         </div>
-          <button class="btn btn-md btn-primary center-block" ng-click="getMoreOuts()">Get More</button>
-       </div>
+        <h1>In</h1>
+        <div class="tile" ng-repeat="hit in inHits | limitTo:3" ng-hide="results==='favorites'">
+          <h4><a target="_blank" ng-href="{{hit.recipe.source_url}}">{{hit.recipe.title}}</a></h4>
+          <div squared class="pic col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <img ng-src="{{hit.recipe.image_url}}" />
+          </div>
+          <h5>rating: {{ roundIt(hit.recipe.social_rank)}}/100</h5>
+          <h5 ng-show="hit.recipe.ingredients.length < 1">no ingredients listed; try <a ng-href="{{hit.recipe.source_url}}">here</a></h5>
+          <ul ng-show="hit.recipe.ingredients.length">ingredients:
+            <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
+          </ul>
+            <button class="btn btn-md btn-primary center-block save" ng-click="saveIns(hit)">Save as Favorite</button>
+        </div>
+        <button class="btn btn-md btn-primary center-block" ng-click="getMoreIns()" ng-hide="results!=='normal'">Get More</button>
+          <!--favorite recipes-->
+          <div class="tile" ng-repeat="hit in faveIns" ng-hide="results ==='normal'">
+            <h4><a target="_blank" ng-href="{{hit.hit.recipe.source_url}}">{{hit.hit.recipe.title}}</a></h4>
+            <div squared class="pic col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+              <img ng-src="{{hit.hit.recipe.image_url}}" />
+            </div>
+            <h5>rating: {{ roundIt(hit.hit.recipe.social_rank)}}/100</h5>
+            <h5 ng-show="hit.hit.recipe.ingredients.length < 1">no ingredients listed; try <a ng-href="{{hit.recipe.source_url}}">here</a></h5>
+            <ul ng-show="hit.hit.recipe.ingredients.length">ingredients:
+              <li ng-repeat="item in hit.hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
+            </ul>
+              <button class="btn btn-md btn-danger center-block delete" ng-click="removeFave(hit)" ng-hide="results!=='favorites'">Remove Favorite</button>
+          </div>
 
+      </div>
+
+
+      <!--eating out results -->
+      <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="outHits.length">
+        <h1>Out</h1>
+        <div class="tile" ng-repeat="hit in outHits | limitTo:3" ng-hide="results === 'favorites'">
+          <h4><a target="_blank" ng-href="{{hit.venue.url}}">{{ hit.venue.name }}</a></h4>
+          <h5 ng-show="hit.venue.hours.isOpen">should be open</h5>
+          <h5 ng-show="!hit.venue.hours.isOpen"> closed </h5>
+          <h5 ng-show="hit.venue.menu.url"><a ng-href="{{hit.venue.menu.url}}" target="_blank">menu link</a></h5>
+          <h5 ng-show="hit.venue.price.message">The prices are: {{hit.venue.price.message}}</h5>
+          <h5>{{hit.venue.location.formattedAddress[0]}}</h5>
+          <h5 ng-show="hit.venue.location.distance"> {{hit.venue.location.distance * 0.00062137 }} miles away</h5>
+          <h5 ng-show="hit.venue.delivery.length">delivery: {{ hit.venue.delivery.url }}</h5>
+          <h5> {{hit.venue.contact.formattedPhone}}</h5>
+            <button class="btn btn-md btn-primary center-block save" ng-click="saveOuts(hit)">Save as Favorite</button>
+        </div>
+        <button class="btn btn-md btn-primary center-block" ng-click="getMoreOuts()" ng-hide="results!=='normal'">Get More</button>
+          <!-- favorite restaurants-->
+        <div class="tile" ng-repeat="hit in faveOuts | limitTo:3" ng-hide="results !== 'favorites'">
+          <h4><a target="_blank" ng-href="{{hit.hit.venue.url}}">{{ hit.venue.name }}</a></h4>
+          <h5 ng-show="hit.hit.venue.hours.isOpen">should be open</h5>
+          <h5 ng-show="!hit.hit.venue.hours.isOpen"> closed </h5>
+          <h5 ng-show="hit.hit.venue.menu.url"><a ng-href="{{hit.hit.venue.menu.url}}" target="_blank">menu link</a></h5>
+          <h5 ng-show="hit.hit.venue.price.message">The prices are: {{hit.hit.venue.price.message}}</h5>
+          <h5>{{hit.hit.venue.location.formattedAddress[0]}}</h5>
+          <h5 ng-show="hit.hit.venue.location.distance"> {{hit.hit.venue.location.distance * 0.00062137 }} miles away</h5>
+          <h5 ng-show="hit.hit.venue.delivery.length">delivery: {{ hit.hit.venue.delivery.url }}</h5>
+          <h5> {{hit.hit.venue.contact.formattedPhone}}</h5>
+                <button class="btn btn-md btn-danger center-block delete" ng-click="removeFave(hit)" ng-hide="results!=='favorites'">Remove Favorite</button>
+        </div>
+      </div>
+
+      <!-- end of console-->
+
+    </div>
+    <div class="about_inner col-md-7 col-sm-7 col-xs-7" style="float:left;" ng-click="showIt('console')" ng-hide="mainShow !== 'about'">
+      <p> This app provides a cost/benefit comparison of going to a restaurant for a meal versus cooking it. Logged in users can save their favorite recipes and restaurants With access to more comprehensive API information, you could get an exact price analysis
+        of the cost of labor time and ingredients, as well as the exact menu item at the restaurant. Some dishes you're just not going to prepare as well as the experts, and you would spend an excess of time and money on a difficult preparation or expensive
+        ingredients. But sometimes you might be denying yourself a fulfilling experience. Cooking is an important communal activity that is often overlooked in favor of a cheap, quick meal!</p>
+    </div>
+    <div class="contact_inner col-md-8 col-sm-8 col-xs-8" style="float:left;" ng-hide="mainShow !== 'contact'">
+      mail: jbreasor@gmail.com <br>
+      github: <a href="github.com/abraxasrex">github.com/abraxasrex</a> <br>
+      portfolio: <a href="github.io">github.io</a>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-12 about">
+      <button class="btn btn-large btn-default" ng-click="showIt('about')">About</button>
+      <button class="btn btn-large btn-default" ng-click="showIt('contact')">Contact</button>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 credits">
+      <h5> Jonathan Reasor 2015. Powered by <a href="http://foursquare.com">Foursquare</a> and <a href="http://food2fork.com">Food2Fork </a></h5>
+    </div>
   </div>
-    <div class="about_inner col-md-6 col-md-offset-1 col-sm-7 col-xs-9" style="float:left;" ng-click="slideIt()">
-       <p> I made this app as a feature suggestion for allrecipes.com. It's intended as a cost/benefit comparison of
-         going to a restaurant for a meal, versus cooking it. With access to more comprehensive API information, you could get an exact price analysis of the cost of labor time
-         and ingredients, as well as the exact menu item at the restaurant. Some dishes you're just not going to prepare
-         as well as the experts, and you would spend an excess of time and money on a difficult preparation or expensive
-         ingredients. But sometimes you might be denying yourself a fulfilling experience. Cooking is an important
-         communal activity that is often overlooked in favor of a cheap, quick meal!</p>
-    </div>
-    <div class="col-md-1 col-sm-1 col-xs-12 about">
-      <button class="btn btn-large btn-default"  ng-click="slideIt()">About</button>
-    </div>
-<div class="row credits">
-  <h5> Jonathan Reasor 2015.
-  Powered by <a href="http://foursquare.com">Foursquare</a> and <a href="http://food2fork.com">Food2Fork </a></h5>
-</div>
-</div>
 </body>
