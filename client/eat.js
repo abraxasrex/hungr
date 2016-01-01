@@ -25,24 +25,38 @@ if (Meteor.isClient) {
     $scope.outHits = [];
     $scope.inHits = [];
     $scope.results = 'normal';
-    if (Meteor.userId() && Meteor.userId().ingredients){
-      $scope.ingredients = Meteor.user().ingredients;
-    } else {
-      $scope.ingredients = [];
-    }
-
+        $scope.mainShow = 'console';
+        if ($scope.radius === undefined) {
+          $scope.radius = 5;
+        }
+    //meteor binding//
     $scope.favorites= $meteor.collection(Faves);
-
-    $scope.mainShow = 'console';
-    if ($scope.radius === undefined) {
-      $scope.radius = 5;
+    $scope.loggedIn= Meteor.userId();
+    //on login//
+    $scope.username; $scope.loggedIn; $scope.ingredients=[];
+    $meteor.autorun($scope, function(){
+    var user = (Meteor.users.find({_id: Meteor.userId()}).fetch())[0];
+    if( user != null ){
+          $scope.username = user.username;
+          $scope.loggedIn = !!user;
+          if($scope.ingredients.length){
+              user.ingredients= $scope.ingredients;
     }
+  }
+});
+
+  //  $meteor.autorun($scope, function() {
+  //$scope.username = Meteor.user().username;
+//  $scope.loggedIn = !!Meteor.userId();
+//  $scope.ingredients = Meteor.user().ingredients
+//  //  $scope.$meteorSubscribe("users-subscription").then(function(){
+    //  $scope.username= $root.currentUser.username;
+    //    $scope.ingredients= $root.currenUser.ingredients;
+//});
+  //  Accounts.onLogin(function(){
+
+//});
     //helper functions //
-    $scope.loggedIn = function() {
-      if (Meteor.userId()) {
-        return true;
-      }
-    };
     $scope.faveIns = $meteor.collection(function() {
       var thisUser = Meteor.userId();
       return Faves.find({owner: thisUser, type:"in"});
@@ -51,6 +65,16 @@ if (Meteor.isClient) {
       var thisUser = Meteor.userId();
       return Faves.find({owner: thisUser, type:"out"});
     });
+    //$scope.faveMatch = function(thisHit){
+    //  var toCheck= thisHit;
+      //var check= $meteor.collection(function(){
+      //  var thisUser= Meteor.userId();
+      //  if(Faves.find({owner: thisUser, hit: toCheck}).count > 0){
+        //  return true;
+      //  };
+    //  });
+    //  check();
+  //  }
     ///  events //
 
     $scope.selectFaves = function() {
@@ -69,8 +93,12 @@ if (Meteor.isClient) {
       $scope.ingredients.splice(index, 1);
     }
     $scope.add = function() {
-      $scope.ingredients.push($scope.addKitchen);
-      $scope.addKitchen = "";
+     if($.inArray($scope.addKitchen, $scope.ingredients) > -1){
+      alert("you've already added that ingredient.")
+     }else{
+       $scope.ingredients.push($scope.addKitchen);
+       $scope.addKitchen = "";
+     }
     }
     $scope.showIt = function(toShow) {
       if ($scope.mainShow == toShow) {
@@ -88,13 +116,14 @@ if (Meteor.isClient) {
         $scope.placeChange();
       }
     }
-    $scope.saveIns = function(thisHit){
+    $scope.saveIt = function(thisHit, kind){
+    //  var thisResult= $.grep($scope.favorites, function(e){ return e.hit == thisHit; });
       var thisUser= Meteor.userId();
-      $scope.favorites.push({owner: thisUser, type:"in", hit: thisHit});
-    };
-    $scope.saveOuts = function(thisHit){
-      var thisUser= Meteor.userId();
-        $scope.favorites.push({owner: thisUser, type:"out", hit: thisHit});
+  //    if(thisResult.length ==1){
+  //     alert("you've already favorited that.")
+    //  }else{
+          $scope.favorites.push({owner: thisUser, type:kind, hit: thisHit});
+    //  }
     };
     // react to changes //
     $scope.foodChange = function() {

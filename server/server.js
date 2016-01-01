@@ -5,6 +5,15 @@
 });
  //}
 if(Meteor.isServer){
+  Accounts.onCreateUser(function (options, user) {
+    user.ingredients=[];
+  if (options.profile)
+    user.profile = options.profile;
+  return user;
+});
+  Meteor.publish(null, function() {
+    return Meteor.users.find(this.userId, {fields: {ingredients: []}});
+  });
 Meteor.methods({
 'fromServer': function(url){
   var method = 'GET';

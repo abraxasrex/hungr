@@ -24,7 +24,7 @@
       <button class="btn btn-large btn-default faves" ng-hide="!loggedIn()" ng-click="selectFaves()">Favorites</button>
       <login-buttons class="btn btn-large btn-default" style="vertical-align:middle;clear:right;display:inline-block;">
       </login-buttons>
-      <form ng-submit="add()">
+      <form id="kitchen_form" ng-submit="add()">
         <h4>What's in My Pantry:</h4>
         <button class="btn btn-md btn-default add_ingredient" type="submit" ng-submit="add()">add</button>
         <h5>
@@ -50,9 +50,10 @@
         <input id="radius" ng-model="radius" ng-keypress="enterSubmit($event)" />
         <h5> miles of</h5>
         <input id="place" placeholder="1234 hungry, USA" ng-model="searchPlace" ng-keypress="enterSubmit($event)" />
-
         <button class="btn btn-md btn-success center-block" id="enter" ng-click="foodChange(); placeChange();">Go</button>
+        <h4 style="text-align:center" ng-hide="results==='normal'">{{username}}'s favorites</h4>
       </div>
+
       <!--error response-->
       <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="noIns">
         <h3>Sorry, no recipes found.</h3>
@@ -61,7 +62,7 @@
         <h3>Sorry, no restaurants found.</h3>
       </div>
       <!--recipe results -->
-      <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="inHits.length">
+      <div class="col-md-6 col-sm-6 col-xs-6 eat_in" ng-show="inHits.length || results==='favorites'">
         <h1>In</h1>
         <div class="tile" ng-repeat="hit in inHits | limitTo:3" ng-hide="results==='favorites'">
           <h4><a target="_blank" ng-href="{{hit.recipe.source_url}}">{{hit.recipe.title}}</a></h4>
@@ -73,7 +74,7 @@
           <ul ng-show="hit.recipe.ingredients.length">ingredients:
             <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
           </ul>
-            <button class="btn btn-md btn-primary center-block save" ng-click="saveIns(hit)">Save as Favorite</button>
+            <button class="btn btn-md btn-primary center-block save" ng-click="saveIt(hit, 'in')">Save as Favorite</button>
         </div>
         <button class="btn btn-md btn-primary center-block" ng-click="getMoreIns()" ng-hide="results!=='normal'">Get More</button>
           <!--favorite recipes-->
@@ -94,7 +95,7 @@
 
 
       <!--eating out results -->
-      <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="outHits.length">
+      <div class="col-md-6 col-sm-6 col-xs-6 eat_out" ng-show="outHits.length || results==='favorites'">
         <h1>Out</h1>
         <div class="tile" ng-repeat="hit in outHits | limitTo:3" ng-hide="results === 'favorites'">
           <h4><a target="_blank" ng-href="{{hit.venue.url}}">{{ hit.venue.name }}</a></h4>
@@ -106,12 +107,12 @@
           <h5 ng-show="hit.venue.location.distance"> {{hit.venue.location.distance * 0.00062137 }} miles away</h5>
           <h5 ng-show="hit.venue.delivery.length">delivery: {{ hit.venue.delivery.url }}</h5>
           <h5> {{hit.venue.contact.formattedPhone}}</h5>
-            <button class="btn btn-md btn-primary center-block save" ng-click="saveOuts(hit)">Save as Favorite</button>
+            <button class="btn btn-md btn-primary center-block save" ng-click="saveIt(hit,'out')">Save as Favorite</button>
         </div>
         <button class="btn btn-md btn-primary center-block" ng-click="getMoreOuts()" ng-hide="results!=='normal'">Get More</button>
           <!-- favorite restaurants-->
         <div class="tile" ng-repeat="hit in faveOuts | limitTo:3" ng-hide="results !== 'favorites'">
-          <h4><a target="_blank" ng-href="{{hit.hit.venue.url}}">{{ hit.venue.name }}</a></h4>
+          <h4><a target="_blank" ng-href="{{hit.hit.venue.url}}">{{ hit.hit.venue.name }}</a></h4>
           <h5 ng-show="hit.hit.venue.hours.isOpen">should be open</h5>
           <h5 ng-show="!hit.hit.venue.hours.isOpen"> closed </h5>
           <h5 ng-show="hit.hit.venue.menu.url"><a ng-href="{{hit.hit.venue.menu.url}}" target="_blank">menu link</a></h5>
@@ -127,7 +128,7 @@
       <!-- end of console-->
 
     </div>
-    <div class="about_inner col-md-7 col-sm-7 col-xs-7" style="float:left;" ng-click="showIt('console')" ng-hide="mainShow !== 'about'">
+    <div class="about_inner col-md-7 col-md-offset-1 col-sm-7 col-xs-7" style="float:left;" ng-click="showIt('console')" ng-hide="mainShow !== 'about'">
       <p> This app provides a cost/benefit comparison of going to a restaurant for a meal versus cooking it. Logged in users can save their favorite recipes and restaurants With access to more comprehensive API information, you could get an exact price analysis
         of the cost of labor time and ingredients, as well as the exact menu item at the restaurant. Some dishes you're just not going to prepare as well as the experts, and you would spend an excess of time and money on a difficult preparation or expensive
         ingredients. But sometimes you might be denying yourself a fulfilling experience. Cooking is an important communal activity that is often overlooked in favor of a cheap, quick meal!</p>

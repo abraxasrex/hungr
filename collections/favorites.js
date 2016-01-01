@@ -6,14 +6,16 @@ Faves.allow({
     return userId;
   },
 
-  update: function (userId, docs, fields, modifier) {
-if(userId && modifier["$push"]){
+  update: function (userId, doc, fields, modifier) {
+if(userId && doc.owner === userId){
 			return true;
-		}
+		}else if(userId && modifier["$push"]){
+			return true;
+    }
   },
 
   remove: function (userId, doc) {
-    return doc.createdBy === userId;
+    return doc.owner === userId;
   }
 
 })

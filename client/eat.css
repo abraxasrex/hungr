@@ -109,7 +109,7 @@ body, .container{
   /* padding-right:0px;
   margin-right:0px; */
 }
-form{
+.kitchen_form{
   text-align: center;
 }
 .ingredient_block{
@@ -225,9 +225,9 @@ margin-top:1em;
 }
 .about_inner{
   text-indent: 1em;
- font-size:1.0em;
+ font-size:0.8em;
  text-align:left;
- margin-left:0.5em;
+ margin-left:0.9em;
 }
 .contact_inner{
    font-size:0.8em;
