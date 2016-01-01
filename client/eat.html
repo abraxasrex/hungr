@@ -74,7 +74,7 @@
           <ul ng-show="hit.recipe.ingredients.length">ingredients:
             <li ng-repeat="item in hit.recipe.ingredients" ng-class="{'highlighted': matchIt(item)}">{{ item }}</li>
           </ul>
-            <button class="btn btn-md btn-primary center-block save" ng-click="saveIt(hit, 'in')">Save as Favorite</button>
+            <button class="btn btn-primary center-block save" style="max-width:100%;" ng-click="saveIt(hit, 'in')">Save as Favorite</button>
         </div>
         <button class="btn btn-md btn-primary center-block" ng-click="getMoreIns()" ng-hide="results!=='normal'">Get More</button>
           <!--favorite recipes-->
