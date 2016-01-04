@@ -3,14 +3,6 @@ if (Meteor.isClient) {
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
   });
-  //UI.registerHelper("indexedArray", function(context, options) {
-   //if (context) {
-  //   return context.map(function(item, index) {
-  //     item._index = index;
-  //   return item;
-  //  });
-  // }
-//});
   //angular app//
   angular.module('Hungr', ['angular-meteor', 'accounts.ui']);
 
@@ -31,31 +23,26 @@ if (Meteor.isClient) {
         }
     //meteor binding//
     $scope.favorites= $meteor.collection(Faves);
-    $scope.loggedIn= Meteor.userId();
     //on login//
-    $scope.username; $scope.loggedIn; $scope.ingredients=[];
+    $scope.username; $scope.ingredients=[]; $scope.loggedIn= false;
     $meteor.autorun($scope, function(){
     var user = (Meteor.users.find({_id: Meteor.userId()}).fetch())[0];
     if( user != null ){
-          $scope.username = user.username;
-          $scope.loggedIn = !!user;
-          if($scope.ingredients.length){
-              user.ingredients= $scope.ingredients;
-    }
-  }
-});
+      $scope.username = user.username;
+      $scope.loggedIn = true;
+        if(user.ingredients.length){
+          $scope.ingredients= user.ingredients;
+          Meteor.users.update({_id: Meteor.userId()}, {$set: {ingredients: $scope.ingredients}});
+        }else if(!user.ingredients.length){
+         Meteor.users.update({_id: Meteor.userId()}, {$set: {ingredients: $scope.ingredients}});
+         $scope.ingredients= user.ingredients;
+      };
 
-  //  $meteor.autorun($scope, function() {
-  //$scope.username = Meteor.user().username;
-//  $scope.loggedIn = !!Meteor.userId();
-//  $scope.ingredients = Meteor.user().ingredients
-//  //  $scope.$meteorSubscribe("users-subscription").then(function(){
-    //  $scope.username= $root.currentUser.username;
-    //    $scope.ingredients= $root.currenUser.ingredients;
-//});
-  //  Accounts.onLogin(function(){
-
-//});
+  }else {
+    $scope.loggedIn==false;
+    $scope.username= "";
+  };
+ });
     //helper functions //
     $scope.faveIns = $meteor.collection(function() {
       var thisUser = Meteor.userId();
@@ -65,18 +52,6 @@ if (Meteor.isClient) {
       var thisUser = Meteor.userId();
       return Faves.find({owner: thisUser, type:"out"});
     });
-    //$scope.faveMatch = function(thisHit){
-    //  var toCheck= thisHit;
-      //var check= $meteor.collection(function(){
-      //  var thisUser= Meteor.userId();
-      //  if(Faves.find({owner: thisUser, hit: toCheck}).count > 0){
-        //  return true;
-      //  };
-    //  });
-    //  check();
-  //  }
-    ///  events //
-
     $scope.selectFaves = function() {
       if ($scope.results === 'favorites') {
         $scope.results = 'normal';

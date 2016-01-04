@@ -12,8 +12,13 @@ if(Meteor.isServer){
   return user;
 });
   Meteor.publish(null, function() {
-    return Meteor.users.find(this.userId, {fields: {ingredients: []}});
+    return Meteor.users.find(this.userId, {fields: {ingredients: 1}});
   });
+  Meteor.users.allow({
+    update: function(userId, docs, fields, modifier) {
+        return true;
+    }
+});
 Meteor.methods({
 'fromServer': function(url){
   var method = 'GET';

@@ -17,11 +17,9 @@
       </h1>
     </div>
 
-    <!-- <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em;" ng-show="!Meteor.userId"> <login-buttons></login-buttons></div>
-    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-top:100em" ng-show="Meteor.userId"> loggin in as: {{username}} </div>
-                                                kitchen and favorite modules-->
-    <div class="col-md-2 col-sm-2 col-xs-3 kitchen" style="text-align:center;">
-      <button class="btn btn-large btn-default faves" ng-hide="!loggedIn()" ng-click="selectFaves()">Favorites</button>
+
+    <div class="col-md-2 col-sm-2 col-xs-3 kitchen" >
+      <button class="btn btn-large btn-default faves" ng-hide="loggedIn===false" ng-click="selectFaves()">Favorites</button>
       <login-buttons class="btn btn-large btn-default" style="vertical-align:middle;clear:right;display:inline-block;">
       </login-buttons>
       <form id="kitchen_form" ng-submit="add()">
@@ -34,11 +32,7 @@
         <button class=" btn btn-sm btn-danger" ng-click="remove(ingredient)">x</button>
       </div>
     </div>
-    <!--  {{#if currentUser}}
-         <h4>Favorite Recipes:</h4>
-      <div class="ingredient_block col-md-12 col-sm-12 col-xs-12" ng-repeat="favorite in favorites" ng-show="favorites.length" ng-click="selectRecipe">{{favorite.title}}<button class=" btn btn-sm btn-danger" ng-click="remove(favorite)">x</button> </div>
-  {{/if}} -->
-
+    
     <!--main display-->
     <div class="console col-md-8 col-sm-8 col-xs-9" ng-show="mainShow ==='console'">
       <!--inputs -->
@@ -129,14 +123,14 @@
 
     </div>
     <div class="about_inner col-md-7 col-md-offset-1 col-sm-7 col-xs-7" style="float:left;" ng-click="showIt('console')" ng-hide="mainShow !== 'about'">
-      <p> This app provides a cost/benefit comparison of going to a restaurant for a meal versus cooking it. Logged in users can save their favorite recipes and restaurants With access to more comprehensive API information, you could get an exact price analysis
+      <p> This app provides a cost/benefit comparison of going to a restaurant for a meal versus cooking it. Logged in users can save their favorite recipes and restaurants. With access to more comprehensive API information, you could get an exact price analysis
         of the cost of labor time and ingredients, as well as the exact menu item at the restaurant. Some dishes you're just not going to prepare as well as the experts, and you would spend an excess of time and money on a difficult preparation or expensive
         ingredients. But sometimes you might be denying yourself a fulfilling experience. Cooking is an important communal activity that is often overlooked in favor of a cheap, quick meal!</p>
     </div>
-    <div class="contact_inner col-md-8 col-sm-8 col-xs-8" style="float:left;" ng-hide="mainShow !== 'contact'">
+    <div class="contact_inner col-md-8 col-sm-8 col-xs-8" ng-hide="mainShow !== 'contact'">
       mail: jbreasor@gmail.com <br>
-      github: <a href="github.com/abraxasrex">github.com/abraxasrex</a> <br>
-      portfolio: <a href="github.io">github.io</a>
+      github: <a href="https://github.com/abraxasrex">abraxasrex</a><br>
+      portfolio: <a href="http://abraxasrex.github.io/">github.io</a>
     </div>
     <div class="col-md-2 col-sm-2 col-xs-12 about">
       <button class="btn btn-large btn-default" ng-click="showIt('about')">About</button>
