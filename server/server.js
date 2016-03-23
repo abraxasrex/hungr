@@ -20,7 +20,7 @@ if(Meteor.isServer){
     }
 });
 Meteor.methods({
-'fromServer': function(url){
+'serverCall': function(url){
   var method = 'GET';
       var options = {
         crossDomain: true,
@@ -35,8 +35,8 @@ Meteor.methods({
     this.unblock();
   return Meteor.http.call(method, url, options);
 },
-'fromServer2': function(n, these){
-    var url2= "http://food2fork.com/api/get.json?key=" + Meteor.settings.public.F2F_KEY + "&rId=" + these[n].recipe_id;
+'serverCall_iterated': function(n, these){
+    var url= "http://food2fork.com/api/get.json?key=" + Meteor.settings.public.F2F_KEY + "&rId=" + these[n].recipe_id;
   var method = 'GET';
       var options = {
         crossDomain: true,
@@ -49,7 +49,7 @@ Meteor.methods({
         }
       }
     this.unblock();
-  return Meteor.http.call(method, url2, options);
+  return Meteor.http.call(method, url, options);
 }
 });
 };
